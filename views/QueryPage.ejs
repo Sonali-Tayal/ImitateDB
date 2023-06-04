@@ -1,0 +1,137 @@
+
+    
+        <link rel="stylesheet" href="/css/QueryPage.css">
+    
+        <div class = "container">
+            <%- include('_queryForm') %>
+            <button class="openbtn"  onclick="openNav()">&#9776; </button>
+            
+            <div id = "MainRes" >
+
+            
+            <% if(rows.length!=0){ %>
+                <%-include('getUserDetails') %>
+                <div id = "dataInfo">
+                    <div id = "info" class = "card">
+                        <span>
+                            <h5>Showing <%= rows.length %> of <%= TableLength %> records</h5>
+                        </span>
+                        <span>
+                            <% if( ColumnName  == null || ColumnValues == null ){ %>
+                                <h5>Showing all values</h5>
+                            <% } else {%>
+                            <h5>Values for Column = <%=ColumnName%>, Values Entered = <%=ColumnValues%> </h5>
+                            <% } %>
+                            <% if(valuesNotPresent.length) {%>
+                             <h5 >Entries not found for = <span style = "color: crimson;"> <%= valuesNotPresent %> </span></h5>   
+                            <% } %>
+                            <%if(TableLength>100000){ %>
+                            <h5 style = "color: crimson;">Query too broad to give downloadable results, kindly narrow your search </h5> 
+                            <%}%>
+                        </span>
+                    </div>
+                    
+                    <div id = "DownloadQueryData" style = "display:none;">
+                        <a href="/query/getCSVData"><i class="fas fa-download" id = "getCSV"></i></a>
+                        
+
+                    </div>
+
+                    
+                    
+
+                </div>
+                <div>
+
+                    <table id = "ResultTable">
+                        <tr>
+                            <% for(column of columnsForDisplay){ %>
+                                <th>
+                                    <%= column %>
+                                </th>
+            
+                           <% } %>
+                        </tr>
+            
+                        <% for(let i = 0; i<rows.length ; i++){ %>
+                            <tr>
+                                <% for(column of columns){ %>
+                                    <td>
+                                        <% if(column == "Matched_Domain_PSSM_ID" ){ %>
+
+                                            <a href="https://www.ncbi.nlm.nih.gov/Structure/cdd/<%= rows[i][column] %>"><%= rows[i][column]%></a>
+                                        <%} else if(column == "Matched_Motif_ID" ){ %>
+
+                                            <a href="https://prosite.expasy.org/<%= rows[i][column] %>"><%= rows[i][column]%></a>
+                                        <%} else if(column == "Pathogen_Protein_ID" ){ %>
+
+                                            <a href="https://www.uniprot.org/uniprot/<%= rows[i][column] %>"><%= rows[i][column]%></a>
+                                        <%} else if(column == "Host_Protein_ID" ){ %>
+
+                                            <a href="https://www.uniprot.org/uniprot/<%= rows[i][column] %>"><%= rows[i][column]%></a>
+                                        <%} else if(column == "Host_Interactor_Protein_ID" ){ %>
+
+                                            <a href="https://www.uniprot.org/uniprot/<%= rows[i][column] %>"><%= rows[i][column]%></a>
+                                        <%} else if(column == "Pubmed_ID" ){ %>
+
+                                            <a href="https://pubmed.ncbi.nlm.nih.gov/<%= rows[i][column] %>"><%= rows[i][column]%></a>
+                                        <%} else {%>
+                                            <%= rows[i][column]%>
+                                        <%}%>
+                                    </td>
+            
+                                <% } %>
+                            </tr>
+                        <% } %>
+                    </table>
+            
+
+                </div>
+            <% }else{ %>
+                <h4><%= message %></h4>
+                <% if((locals.messageType) && (locals.messageType == 'success') ){ %>
+                    <%- include('getStarted') %>
+                <% } %>
+                
+            <% } %>
+        
+            </div>
+
+           
+            
+    
+            
+
+        </div>
+
+
+        
+
+        
+        <% if((rows.length!=0) && (TableLength > 10000) && (TableLength<=100000)){ %>
+            <script>
+                $('#getCSV').on('click',function(event){
+                    event.preventDefault()
+
+                })
+            </script>
+            <script type = "text/javascript" src = "/js/getUserDetails.js"></script>
+        <% } %>
+
+        <% if ((locals.TableLength) && (TableLength < 100000) ){%>
+            <script>
+
+                $(document).ready(function(){
+                                $('#DownloadQueryData').css('display','block')
+                            })
+
+            </script>
+            
+        <% } %>
+        <script src="https://kit.fontawesome.com/649bd7dfb2.js" crossorigin="anonymous"></script>
+        <script type = "text/javascript" src = "/js/sidePanel.js"></script>
+        
+        
+        
+        
+        
