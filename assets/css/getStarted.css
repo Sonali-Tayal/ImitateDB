@@ -1,0 +1,47 @@
+.GetStartedContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.Instruction{
+    
+    display: flex;
+    flex-direction: row;
+    margin: 2%;
+
+}
+
+.Interpretation{
+    
+    margin: 2%;
+
+}
+
+.inst_text{
+    list-style-type: none;
+    width:75%;
+    font-size: 1.5vw;
+    padding: 2%;
+
+}
+
+.inst_text li{
+    padding:1%;
+}
+
+.inst_img{
+    width:48%;
+
+}
+
+.intp_img{
+    width:90%;
+
+}
+
+
+.text-imp{
+    color:crimson;
+}
